@@ -1,5 +1,4 @@
 <script setup lang="ts">
-  import type { Level } from '@/models/Level'
   import CardList from '@/components/CardList.vue'
   import type { Card } from '@/models/Card'
 
