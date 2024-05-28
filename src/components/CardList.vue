@@ -1,27 +1,28 @@
 <script setup lang="ts">
 import type {Card} from '@/models/Card';
 import CardItem from '@/components/CardItem.vue';
+import { computed } from 'vue'
 
-const cards: Card [] = [];
+const props = defineProps<{ cards: Card[] }>();
+const emit = defineEmits(['updateCard']);
 
-const addCard = (card: Card): void => {
-  cards.push(card);
-}
+const shuffleCards = computed(() => {
+  return [...props.cards].sort(() => Math.random() - 0.5);
+});
 
-const deleteCard = (card: Card): void => {
-  const index: number = cards.indexOf(card);
-  if (index > -1) {
-    cards.splice(index, 1);
-  }
-}
-
-const getRandomCard = (): Card => {
-  return cards[Math.floor(Math.random() * cards.length)];
-}
+const updateCard = (updatedCard: Card) => {
+  emit('updateCard', updatedCard);
+};
 </script>
 
 <template>
-  <CardItem v-if="cards && cards.length" v-bind:card="getRandomCard()"></CardItem>
+  <div>
+    <CardItem v-for="card in shuffleCards"
+              :key="card.id"
+              :card="card"
+              @review="updateCard"
+    />
+  </div>
 </template>
 
 <style scoped>
