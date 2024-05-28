@@ -3,15 +3,19 @@
   import CardList from '@/components/CardList.vue'
   import type { Card } from '@/models/Card'
 
-  const props = defineProps<{ level: Level, themeId: number }>();
-  const cards: Card[] = [];
+  const props = defineProps<{ level: number; cards: Card[] }>();
+  const emit = defineEmits(['updateCard']);
+
+  const handleUpdateCard = (updatedCard: Card) => {
+    emit('updateCard', updatedCard);
+  }
 </script>
 
 <template>
-  <CardList :cards="level.cards"
-            :levelId="level.id"
-            :themeId="themeId"
-  ></CardList>
+  <div>
+    <h2>Niveau {{ level }}</h2>
+    <CardList :cards="cards" @updateCard="handleUpdateCard" />
+  </div>
 </template>
 
 <style scoped>
