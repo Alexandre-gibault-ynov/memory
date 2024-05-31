@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {Card} from '@/models/Card';
-import CardItem from '@/components/CardItem.vue';
+import CardItem from '@/components/CardComponent.vue';
 import { computed } from 'vue'
 
 const props = defineProps<{ cards: Card[] }>();

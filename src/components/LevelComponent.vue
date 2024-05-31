@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import CardList from '@/components/CardList.vue'
+  import CardList from '@/components/CardListComponent.vue'
   import type { Card } from '@/models/Card'
 
   const props = defineProps<{ level: number; cards: Card[] }>();
