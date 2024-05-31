@@ -4,4 +4,5 @@ export interface Card {
   answer: string;
   level: number;
   nextReviewDate: Date;
+  themeId: number;
 }

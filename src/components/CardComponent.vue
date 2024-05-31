@@ -1,19 +1,24 @@
 <script setup lang="ts">
   import type { Card } from '@/models/Card';
-  import { ref } from 'vue'
+  import { ref, watch } from 'vue'
+  import { useMemoryStore } from '@/stores/memoryStore'
 
   const props = defineProps<{ card: Card }>();
-  const emit = defineEmits(['review']);
+  const emit = defineEmits<{
+    (e: 'review', card: Card): void
+  }>();
 
   const localCard = ref({ ...props.card });
-
   const showAnswer = ref(false);
+
+  const memoryStore = useMemoryStore();
 
   const handleCorrect = () => {
     localCard.value.level++;
     localCard.value.nextReviewDate = calculateNexReviewDate(localCard.value.level);
     showAnswer.value = false;
     emit('review', localCard.value);
+    memoryStore.updateCard(localCard.value.themeId, localCard.value);
   };
 
   const handleIncorrect = () => {
@@ -21,6 +26,7 @@
     localCard.value.nextReviewDate = calculateNexReviewDate(localCard.value.level);
     showAnswer.value = false;
     emit('review', localCard.value);
+    memoryStore.updateCard(localCard.value.themeId, localCard.value);
   }
 
   const calculateNexReviewDate = (level: number): Date => {
@@ -29,6 +35,11 @@
     today.setDate(today.getDate() + daysToAdd);
     return today;
   };
+
+  // Watch for prop changes and update the local copy
+  watch(() => props.card, (newCard) => {
+    localCard.value = { ...newCard };
+  });
 </script>
 
 <template>
