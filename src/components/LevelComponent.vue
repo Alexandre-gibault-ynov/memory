@@ -3,7 +3,9 @@
   import type { Card } from '@/models/Card'
 
   const props = defineProps<{ level: number; cards: Card[] }>();
-  const emit = defineEmits(['updateCard']);
+  const emit = defineEmits<{
+    (e: 'updateCard', card: Card): void
+  }>();
 
   const handleUpdateCard = (updatedCard: Card) => {
     emit('updateCard', updatedCard);

@@ -4,7 +4,9 @@ import CardItem from '@/components/CardComponent.vue';
 import { computed } from 'vue'
 
 const props = defineProps<{ cards: Card[] }>();
-const emit = defineEmits(['updateCard']);
+const emit = defineEmits<{
+  (e: 'updateCard', card: Card): void
+}>();
 
 const shuffleCards = computed(() => {
   return [...props.cards].sort(() => Math.random() - 0.5);
