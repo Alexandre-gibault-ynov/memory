@@ -3,5 +3,7 @@
 </script>
 
 <template>
-
+  <div>
+    <h1>Memory</h1>
+  </div>
 </template>

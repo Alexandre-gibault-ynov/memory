@@ -11,10 +11,10 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: 'theme/:id',
+      path: '/theme/:id',
       name: 'Theme',
       component: ThemeView
-    }
+    },
   ]
 })
 

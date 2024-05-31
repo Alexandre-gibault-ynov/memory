@@ -3,7 +3,9 @@
   import LevelComponent from '@/components/LevelComponent.vue'
 
   const props = defineProps<{ themeName: string; levels: { [key: number]: Card[] } }>();
-  const emit = defineEmits(['updateCard']);
+  const emit = defineEmits<{
+    (e: 'updateCard', card: Card): void
+  }>();
 
   const handleUpdateCard = (updatedCard: Card) => {
     emit('updateCard', updatedCard);

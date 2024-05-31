@@ -2,14 +2,26 @@
 
   import { useRoute } from 'vue-router'
   import { computed, type Ref } from 'vue'
+  import { useMemoryStore } from '@/stores/memoryStore'
+  import type { Card } from '@/models/Card'
+  import ThemeComponent from '@/components/ThemeComponent.vue'
 
   const route = useRoute();
+  const memoryStore = useMemoryStore();
 
-  const themeId = computed(() => route.params.id);
+  const themeId = computed(() => Number(route.params.id));
+  const theme = computed(() => memoryStore.themes.find(theme => theme.id === themeId.value));
+
+  const handleUpdateCard = (updatedCard: Card) => {
+    memoryStore.updateCard(themeId.value, updatedCard);
+  }
 </script>
 
 <template>
-
+  <div>
+    <theme-component v-if="theme" :theme-name="theme?.name" :levels="theme?.levels" @updateCard="handleUpdateCard"/>
+    <p v-else>Thème non trouvé</p>
+  </div>
 </template>
 
 <style scoped>
