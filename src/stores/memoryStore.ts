@@ -5,7 +5,7 @@ import type { Card } from '@/models/Card'
 
 export const useMemoryStore = defineStore('memoryStore', {
   state: (): ThemeStoreState => ({
-    themes: []
+    themes: [] as Theme[]
   }),
   actions: {
     addTheme(theme: Theme) {
