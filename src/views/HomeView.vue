@@ -17,7 +17,7 @@
     <h1>Memory</h1>
   </div>
   <div class="home">
-    <h1>Thème disponibles</h1>
+    <h1>{{ themes.length > 0 ? 'Thèmes' : 'Thème' }}</h1>
     <div class="themes-grid" v-if="themes.length > 0">
       <div
         v-for="theme in themes"
@@ -28,7 +28,7 @@
         {{ theme.name }}
       </div>
     </div>
-    <p v-else>Aucun thèmes disponibles</p>
+    <p v-else>Aucun thème disponible</p>
   </div>
 </template>
 
