@@ -12,7 +12,7 @@ const router = createRouter({
     },
     {
       path: '/theme/:id',
-      name: 'Theme',
+      name: 'theme',
       component: ThemeView
     },
   ]
