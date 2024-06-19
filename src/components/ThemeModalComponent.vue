@@ -88,9 +88,58 @@
 </script>
 
 <template>
-
+  <button @click="showModal = true">Ajouter un thème</button>
+  <div v-if="showModal" class="modal">
+    <div class="modal-content">
+      <button class="close-button" @click="closeModal">X</button>
+      <div v-if="step === 1">
+        <h2>Étape 1 : éditer les propriétés du theme</h2>
+        <label for="themeName">Nom du thème</label>
+        <input v-model.trim="newTheme.name" id="themeName" placeholder="Nom du Theme" />
+        <label for="levelCount">Nombre de niveau</label>
+        <input v-model.number="newTheme.levelCount" id="levelCount" type="number" min="0" placeholder="Nombre de niveaux" />
+        <label for="cardNumber">Nombre de cartes à ajouter en fin de session de révision</label>
+        <input v-model.number="newTheme.cardsToAdd" id="cardNumber" type="number" min="0" placeholder="Nombre de cartes à ajouter" />
+        <button @click="nextStep">Suivant</button>
+      </div>
+      <div v-else-if="step === 2">
+        <h2>Étape 2 : Ajout de cartes au thème</h2>
+        <div v-for="(card, index) in newTheme.cards" :key="index">
+          <label for="cardQuestion">Question</label>
+          <input v-model.trim="card.question" id="cardQuestion" placeholder="Question" />
+          <label for="cardAnswer">Réponse</label>
+          <input v-model.trim="card.answer" id="cardAnswer" placeholder="Réponse" />
+        </div>
+        <button @click="previousStep">Précédent</button>
+        <button @click="addCard">Ajouter une carte</button>
+        <button @click="submitTheme">Ajouter le thème</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  position: relative;
+}
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
 </style>
