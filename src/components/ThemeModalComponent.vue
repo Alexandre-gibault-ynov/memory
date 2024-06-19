@@ -36,6 +36,20 @@
   const addCard = ():void => {
     newTheme.value.cards.push({ question: '', answer: '' });
   };
+
+  /**
+   * Close the new theme modal
+   */
+  const closeModal = () => {
+    showModal.value = false;
+    step.value = 1;
+    newTheme.value = {
+      name: '',
+      levelCount: 0,
+      cardsToAdd: 0,
+      cards: [{ question: '', answer: '' }]
+    };
+  };
 </script>
 
 <template>
