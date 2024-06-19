@@ -29,6 +29,13 @@
     step.value = 1;
   }
 
+
+  /**
+   * Add a  card to a newTheme object
+   */
+  const addCard = ():void => {
+    newTheme.value.cards.push({ question: '', answer: '' });
+  };
 </script>
 
 <template>
