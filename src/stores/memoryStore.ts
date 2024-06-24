@@ -11,28 +11,52 @@ export const useMemoryStore = defineStore('memoryStore', {
     addTheme(theme: Theme) {
       this.themes.push(theme);
     },
-    addCard(themeId: number, card: Card) {
-      const theme  = this.themes.find(theme => theme.id === themeId);
+    moveCardToNextLevel(card: Card) {
+      const theme = this.themes.find(t => t.id === card.themeId);
+      if (!theme) return;
+      const themeLevelsNumber = Object.keys(theme.levels).length
+      const currentLevel = card.level;
 
-      if (theme) {
-        if (!theme.levels[1]) {
-          theme.levels[1] = [];
-        }
-        theme.levels[1].push(card);
+      card.level++;
+      if (card.level < themeLevelsNumber) {
+        this.updateNextReviewDate(card);
+        //Update theme levels
+        theme.levels[currentLevel] = theme.levels[currentLevel].filter(c => c.id !== card.id);
+        theme.levels[card.level].push(card);
+      } else {
+        this.removeCard(card);
       }
     },
-    updateCard(themeId: number, updatedCard: Card) {
-      const theme = this.themes.find(theme => theme.id === themeId);
-      if (theme) {
-        const currentLevel = theme.levels[updatedCard.level] || [];
-        const cardIndex = currentLevel.findIndex(card => card.id === updatedCard.id);
+    updateNextReviewDate(card: Card) {
+      const today = new Date();
+      const daysToAdd = Math.pow(2, card.level - 1);
+      card.nextReviewDate.setDate(today.getDate() + daysToAdd);
+    },
+    updateThemeLevels(card: Card) {
+      const theme = this.themes.find(t => t.id === card.themeId);
+      if (!theme) return;
+      const previousLevel = card.level - 1;
+      theme.levels[previousLevel] = theme.levels[previousLevel].filter(c => c.id !== card.id);
+      theme.levels[card.level].push(card);
+    },
+    resetCardToFirstLevel(card: Card) {
+      const theme = this.themes.find(t => t.id === card.themeId);
+      if (!theme) return;
+      const currentLevel = card.level;
 
-        if (cardIndex !== -1) {
-          currentLevel[cardIndex] = updatedCard;
-        } else {
-          currentLevel.push(updatedCard);
-        }
-        theme.levels[updatedCard.level] = currentLevel;
+      card.level = 1;
+      this.updateNextReviewDate(card);
+      theme.levels[currentLevel] = theme.levels[currentLevel].filter(c => c.id !== card.id);
+      theme.levels[1].push(card);
+    },
+    removeCard(card: Card) {
+      const theme = this.themes.find(t => t.id === card.themeId);
+      if (!theme) {
+        return;
+      }
+
+      for (const level in theme.levels) {
+        theme.levels[level] = theme.levels[level].filter(c => c.id !== card.id);
       }
     }
   }
