@@ -1,28 +1,21 @@
 <script setup lang="ts">
 import type {Card} from '@/models/Card';
-import CardItem from '@/components/CardComponent.vue';
+import CardComponent from '@/components/CardComponent.vue';
 import { computed } from 'vue'
 
 const props = defineProps<{ cards: Card[] }>();
-const emit = defineEmits<{
-  (e: 'updateCard', card: Card): void
-}>();
 
 const shuffleCards = computed(() => {
   return [...props.cards].sort(() => Math.random() - 0.5);
 });
 
-const updateCard = (updatedCard: Card) => {
-  emit('updateCard', updatedCard);
-};
 </script>
 
 <template>
   <div>
-    <CardItem v-for="card in shuffleCards"
+    <card-component v-for="card in shuffleCards"
               :key="card.id"
               :card="card"
-              @review="updateCard"
     />
   </div>
 </template>
