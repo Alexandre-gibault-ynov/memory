@@ -1,21 +1,18 @@
 <script setup lang="ts">
   import CardList from '@/components/CardListComponent.vue'
   import type { Card } from '@/models/Card'
+  import { useMemoryStore } from '@/stores/memoryStore'
 
   const props = defineProps<{ level: number; cards: Card[] }>();
-  const emit = defineEmits<{
-    (e: 'updateCard', card: Card): void
-  }>();
+  const memoryStore = useMemoryStore();
 
-  const handleUpdateCard = (updatedCard: Card) => {
-    emit('updateCard', updatedCard);
-  }
+
 </script>
 
 <template>
-  <div>
+  <div v-if="level > 0">
     <h2>Niveau {{ level }}</h2>
-    <CardList :cards="cards" @updateCard="handleUpdateCard" />
+    <card-list :cards="cards" />
   </div>
 </template>
 
