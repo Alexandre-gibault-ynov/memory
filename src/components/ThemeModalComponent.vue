@@ -89,39 +89,9 @@
    * Initialize a new theme and add it to the store
    */
   const onSubmit = handleSubmit((values) => {
-    // New theme Initialization
-    const themeId = storedThemes.value.length + 1;
-    const theme: Theme = {
-      id: themeId,
-      name: values.themeName,
-      levels: [],
-    }
-
-    for (let i = 0; i <= values.levelCount; i++) {
-      theme.levels[i] = [];
-    }
-
-    //Cards initialization
-    let cardId = 1;
-    let initializedCards: Card[] = [];
-    values.cards.forEach(card => {
-      const newCard = {
-        id: cardId++,
-        question: card.question,
-        answer: card.answer,
-        level: initializedCards.length < values.cardsToAdd ? 1 : 0,
-        nextReviewDate: new Date(),
-        themeId: themeId,
-      }
-      initializedCards.push(newCard);
-    });
-    theme.levels[1] = initializedCards.splice(0, values.cardsToAdd);
-    theme.levels[0] = initializedCards;
-
-    //Add new initialized theme to the store
-    memoryStore.addTheme(theme);
+    memoryStore.initializeNewTheme(values);
     closeAddThemeModal();
-  })
+  });
 </script>
 
 <template>
