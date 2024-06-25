@@ -48,7 +48,7 @@
   const [themeName, themeNameAttrs] = defineField('themeName');
   const [levelCount, levelCountAttrs] = defineField('levelCount');
   const [cardsToAdd, cardToAddAttrs] = defineField('cardsToAdd');
-  const {fields: cards, push, remove} = useFieldArray<{question: string, answer: string}>('cards');
+  const {fields: cards, push, remove} = useFieldArray<{question: yup.StringSchema, answer: yup.StringSchema}>('cards');
 
   /**
    * Set the step with newStep value
