@@ -1,6 +1,4 @@
 <script setup lang="ts">
-  import type { Theme } from '@/models/Theme';
-  import type { Card } from '@/models/Card';
   import { computed, ref } from 'vue'
   import { useMemoryStore } from '@/stores/memoryStore'
   import { useFieldArray, useForm } from 'vee-validate'
