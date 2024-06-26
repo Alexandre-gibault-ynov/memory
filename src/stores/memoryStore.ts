@@ -5,11 +5,12 @@ import type { Card } from '@/models/Card'
 
 export const useMemoryStore = defineStore('memoryStore', {
   state: (): ThemeStoreState => ({
-    themes: [] as Theme[]
+    themes: JSON.parse(localStorage.getItem('themes') || '[]') as Theme[],
   }),
   actions: {
     addTheme(theme: Theme) {
       this.themes.push(theme);
+      localStorage.setItem('themes', JSON.stringify(this.themes));
     },
     initializeNewTheme(formValues: { themeName: string, levelCount: number, cardsToAdd: number, cards: { question: string, answer: string }[] }) {
       // New theme Initialization
@@ -27,7 +28,7 @@ export const useMemoryStore = defineStore('memoryStore', {
     moveCardToNextLevel(card: Card) {
       const theme = this.themes.find(t => t.id === card.themeId);
       if (!theme) return;
-      const themeLevelsNumber = Object.keys(theme.levels).length
+      const themeLevelsNumber = Object.keys(theme.levels).length;
       const currentLevel = card.level;
 
       card.level++;
@@ -39,6 +40,7 @@ export const useMemoryStore = defineStore('memoryStore', {
       } else {
         this.removeCard(card);
       }
+      localStorage.setItem('themes', JSON.stringify(this.themes));
     },
     resetCardToFirstLevel(card: Card) {
       const theme = this.themes.find(t => t.id === card.themeId);
@@ -49,6 +51,8 @@ export const useMemoryStore = defineStore('memoryStore', {
       this.updateNextReviewDate(card);
       theme.levels[currentLevel] = theme.levels[currentLevel].filter(c => c.id !== card.id);
       theme.levels[1].push(card);
+      
+      localStorage.setItem('themes', JSON.stringify(this.themes));
     },
     initializeNewThemeLevels(theme: Theme, levelCount: number) {
       for (let i = 0; i <= levelCount; i++) {
