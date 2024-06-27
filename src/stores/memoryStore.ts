@@ -35,8 +35,8 @@ export const useMemoryStore = defineStore('memoryStore', {
       if (card.level < themeLevelsNumber) {
         this.updateNextReviewDate(card);
         //Update theme levels
-        theme.levels[currentLevel] = theme.levels[currentLevel].filter(c => c.id !== card.id);
-        theme.levels[card.level].push(card);
+        theme.levels[currentLevel].cards = theme.levels[currentLevel].cards.filter(c => c.id !== card.id);
+        theme.levels[card.level].cards.push(card);
       } else {
         this.removeCard(card);
       }
@@ -49,14 +49,17 @@ export const useMemoryStore = defineStore('memoryStore', {
 
       card.level = 1;
       this.updateNextReviewDate(card);
-      theme.levels[currentLevel] = theme.levels[currentLevel].filter(c => c.id !== card.id);
-      theme.levels[1].push(card);
+      theme.levels[currentLevel].cards = theme.levels[currentLevel].cards.filter(c => c.id !== card.id);
+      theme.levels[1].cards.push(card);
       
       localStorage.setItem('themes', JSON.stringify(this.themes));
     },
     initializeNewThemeLevels(theme: Theme, levelCount: number) {
       for (let i = 0; i <= levelCount; i++) {
-        theme.levels[i] = [];
+        theme.levels[i] = {
+          nextReviewDate: new Date(),
+          cards: []
+        };
       }
     },
     initializeNewThemeWithNewCards(theme: Theme, cards: { question: string, answer: string }[]){
@@ -73,8 +76,8 @@ export const useMemoryStore = defineStore('memoryStore', {
         }
         initializedCards.push(newCard);
       });
-      theme.levels[1] = initializedCards.splice(0, theme.cardsToAdd);
-      theme.levels[0] = initializedCards;
+      theme.levels[1].cards = initializedCards.splice(0, theme.cardsToAdd);
+      theme.levels[0].cards = initializedCards;
     },
     updateNextReviewDate(card: Card) {
       const today = new Date();
@@ -88,7 +91,7 @@ export const useMemoryStore = defineStore('memoryStore', {
       }
 
       for (const level in theme.levels) {
-        theme.levels[level] = theme.levels[level].filter(c => c.id !== card.id);
+        theme.levels[level].cards = theme.levels[level].cards.filter(c => c.id !== card.id);
       }
     },
   }
