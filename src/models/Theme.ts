@@ -1,4 +1,4 @@
-import type {Card} from '@/models/Card'
+import type { Level } from '@/models/Level'
 
 export interface Theme {
 
@@ -20,5 +20,5 @@ export interface Theme {
   /**
    * Levels of the theme
    */
-  levels: { [key: number]: Card[] };
+  levels: Level[];
 }
