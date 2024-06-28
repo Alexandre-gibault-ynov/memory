@@ -55,11 +55,13 @@ export const useMemoryStore = defineStore('memoryStore', {
       localStorage.setItem('themes', JSON.stringify(this.themes));
     },
     initializeNewThemeLevels(theme: Theme, levelCount: number) {
+      const today = new Date();
       for (let i = 0; i <= levelCount; i++) {
+        const daysToAdd = Math.pow(2, i > 0 ? -1 : 0);
         theme.levels[i] = {
-          nextReviewDate: new Date(),
-          cards: []
-        };
+          nextReviewDate: new Date(today.getDate() + daysToAdd),
+          cards: [],
+        }
       }
     },
     initializeNewThemeWithNewCards(theme: Theme, cards: { question: string, answer: string }[]){
@@ -81,7 +83,7 @@ export const useMemoryStore = defineStore('memoryStore', {
     },
     updateNextReviewDate(card: Card) {
       const today = new Date();
-      const daysToAdd = Math.pow(2, card.level - 1);
+      const daysToAdd = Math.pow(2, card.level > 0 ? -1 : 0);
       card.nextReviewDate.setDate(today.getDate() + daysToAdd);
     },
     removeCard(card: Card) {
