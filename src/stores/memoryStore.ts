@@ -28,11 +28,11 @@ export const useMemoryStore = defineStore('memoryStore', {
     moveCardToNextLevel(card: Card) {
       const theme = this.themes.find(t => t.id === card.themeId);
       if (!theme) return;
-      const themeLevelsNumber = Object.keys(theme.levels).length;
+      const themeLevelsCount = Object.keys(theme.levels).length;
       const currentLevel = card.level;
 
       card.level++;
-      if (card.level < themeLevelsNumber) {
+      if (card.level < themeLevelsCount) {
         this.updateNextReviewDate(card);
         //Update theme levels
         theme.levels[currentLevel].cards = theme.levels[currentLevel].cards.filter(c => c.id !== card.id);
@@ -57,9 +57,9 @@ export const useMemoryStore = defineStore('memoryStore', {
     initializeNewThemeLevels(theme: Theme, levelCount: number) {
       const today = new Date();
       for (let i = 0; i <= levelCount; i++) {
-        const daysToAdd = Math.pow(2, i > 0 ? -1 : 0);
+        const daysToAdd = i > 1 ? (24 * 60 * 60 * 1000) * Math.pow(2, i - 1) : 0;
         theme.levels[i] = {
-          nextReviewDate: new Date(today.getDate() + daysToAdd),
+          nextReviewDate: new Date(today.getTime() + daysToAdd),
           cards: [],
         }
       }
@@ -83,7 +83,7 @@ export const useMemoryStore = defineStore('memoryStore', {
     },
     updateNextReviewDate(card: Card) {
       const today = new Date();
-      const daysToAdd = Math.pow(2, card.level > 0 ? -1 : 0);
+      const daysToAdd = card.level > 1 ? (24 * 60 * 60 * 1000) * Math.pow(2, card.level - 1) : 0;
       card.nextReviewDate.setDate(today.getDate() + daysToAdd);
     },
     removeCard(card: Card) {
