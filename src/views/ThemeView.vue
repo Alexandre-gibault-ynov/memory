@@ -12,14 +12,11 @@
   const themeId = computed(() => Number(route.params.id));
   const theme = computed(() => memoryStore.themes.find(theme => theme.id === themeId.value));
 
-  const handleUpdateCard = (updatedCard: Card) => {
-    memoryStore.updateCard(themeId.value, updatedCard);
-  }
 </script>
 
 <template>
   <div>
-    <theme-component v-if="theme" :theme-name="theme?.name" :levels="theme?.levels" @updateCard="handleUpdateCard"/>
+    <theme-component v-if="theme" :theme="theme" />
     <p v-else>Thème non trouvé</p>
   </div>
 </template>

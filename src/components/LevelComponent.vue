@@ -1,17 +1,14 @@
 <script setup lang="ts">
   import CardList from '@/components/CardListComponent.vue'
   import type { Card } from '@/models/Card'
-  import { useMemoryStore } from '@/stores/memoryStore'
 
-  const props = defineProps<{ level: number; cards: Card[] }>();
-  const memoryStore = useMemoryStore();
-
+  const props = defineProps<{ levelIndex: number; cards: Card[] }>();
 
 </script>
 
 <template>
-  <div v-if="level > 0">
-    <h2>Niveau {{ level }}</h2>
+  <div v-if="levelIndex > 0">
+    <h2>Niveau {{ levelIndex }}</h2>
     <card-list :cards="cards" />
   </div>
 </template>
