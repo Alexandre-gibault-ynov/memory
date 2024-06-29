@@ -1,9 +1,8 @@
 <script setup lang="ts">
 
   import { useRoute } from 'vue-router'
-  import { computed, type Ref } from 'vue'
+  import { computed } from 'vue'
   import { useMemoryStore } from '@/stores/memoryStore'
-  import type { Card } from '@/models/Card'
   import ThemeComponent from '@/components/ThemeComponent.vue'
 
   const route = useRoute();
