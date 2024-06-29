@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import LevelComponent from '@/components/LevelComponent.vue'
 import type { Theme } from '@/models/Theme'
-import { computed } from 'vue'
+import { computed, onBeforeMount } from 'vue'
+import { useMemoryStore } from '@/stores/memoryStore'
 
   const props = defineProps<{ theme: Theme; }>();
-
+  const memoryStore = useMemoryStore();
   /**
    * Return an array of levels available to review from the theme.
    * The array is descending sorted by the review date.
@@ -18,13 +19,17 @@ import { computed } from 'vue'
       .sort((a, b) => b.nextReviewDate.getTime() - a.nextReviewDate.getTime());
   };
 
-  const availaBleLevelsToReview = computed(() => getAvailableLevelsToReview(props.theme));
+  const availableLevelsToReview = computed(() => getAvailableLevelsToReview(props.theme));
+
+  onBeforeMount(() => {
+    memoryStore.initializeReviewSession(props.theme);
+  });
 </script>
 
 <template>
   <div>
     <h1>{{ theme.name }}</h1>
-    <div v-for="(level, index) in availaBleLevelsToReview" :key="index">
+    <div v-for="(level, index) in availableLevelsToReview" :key="index">
       <level-component :level-index="index" :cards="level.cards" />
     </div>
   </div>
