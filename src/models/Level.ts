@@ -5,6 +5,11 @@ import type { Card } from '@/models/Card'
  */
 export interface Level {
   /**
+   * The index of the level contained in the theme
+   */
+  id: number;
+
+  /**
    * The cards contained by the level
    */
   cards: Card[];

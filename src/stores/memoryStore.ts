@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { ThemeStoreState } from '@/models/ThemeStoreState'
 import type { Theme } from '@/models/Theme'
 import type { Card } from '@/models/Card'
+import type { Level } from '@/models/Level'
 
 export const useMemoryStore = defineStore('memoryStore', {
   state: (): ThemeStoreState => ({
@@ -59,6 +60,7 @@ export const useMemoryStore = defineStore('memoryStore', {
       for (let i = 0; i <= levelCount; i++) {
         const daysToAdd = i > 1 ? (24 * 60 * 60 * 1000) * Math.pow(2, i - 1) : 0;
         theme.levels[i] = {
+          id: i,
           nextReviewDate: new Date(today.getTime() + daysToAdd),
           cards: [],
         }
@@ -81,10 +83,15 @@ export const useMemoryStore = defineStore('memoryStore', {
       theme.levels[1].cards = initializedCards.splice(0, theme.cardsToAdd);
       theme.levels[0].cards = initializedCards;
     },
+    updateLevelNextReviewDate(level: Level) {
+      const today = new Date();
+      const daysToAdd = level.id > 1 ? (24 * 60 * 60 * 1000) * Math.pow(2, level.id - 1) : 0;
+      level.nextReviewDate.setTime(today.getTime() + daysToAdd);
+    },
     updateNextReviewDate(card: Card) {
       const today = new Date();
       const daysToAdd = card.level > 1 ? (24 * 60 * 60 * 1000) * Math.pow(2, card.level - 1) : 0;
-      card.nextReviewDate.setDate(today.getDate() + daysToAdd);
+      card.nextReviewDate.setTime(today.getDate() + daysToAdd);
     },
     removeCard(card: Card) {
       const theme = this.themes.find(t => t.id === card.themeId);
