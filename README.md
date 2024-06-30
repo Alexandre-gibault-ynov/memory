@@ -4,6 +4,8 @@ A school project that implements a spaced repetition learning PWA.
 
 ## Project Setup
 
+On main branch.
+
 ```sh
 npm install
 ```
