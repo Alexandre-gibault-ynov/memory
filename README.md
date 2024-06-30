@@ -133,3 +133,8 @@ This view displays a theme.
 
 The app uses the pinia store in order to manage the data. It will contain all
 the methode that involve data management. It stores the data in the local storage too.
+
+## Testing data
+
+The testing data are charged at the app launch. I couldn't manage to create a executable script
+to add to the package.json.
