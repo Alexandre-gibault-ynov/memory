@@ -12,6 +12,20 @@ export const useMemoryStore = defineStore('memoryStore', {
   }),
   actions: {
     /**
+     * Converts the nextReviewDate strings returned by the localStorage into dates object
+     *
+     * @param theme the theme to initialize
+     */
+    initializeThemeFromStorage(theme: Theme){
+        theme.levels.forEach(level => {
+          level.nextReviewDate = new Date(level.nextReviewDate);
+          level.cards.forEach(card => {
+            card.nextReviewDate = new Date(card.nextReviewDate);
+          });
+        });
+    },
+
+    /**
      * Initialize the review session for a theme
      *
      * @param theme The theme to initialize the review session
