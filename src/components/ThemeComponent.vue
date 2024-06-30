@@ -22,6 +22,7 @@ import { useMemoryStore } from '@/stores/memoryStore'
   const availableLevelsToReview = computed(() => getAvailableLevelsToReview(props.theme));
 
   onBeforeMount(() => {
+    memoryStore.initializeThemeFromStorage(props.theme);
     memoryStore.initializeReviewSession(props.theme);
   });
 </script>
